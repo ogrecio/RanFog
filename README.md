@@ -2,7 +2,7 @@
 A java program to implement Random Forest in a general framework
 
 ## Introduction
-This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. Two versions are available: RanFoG_class.jar for classification problems (discrete phenotypes) and RanFoG_reg.jar for regression problems (continuous phenotypes). The user may choose the version that best adapts to her/his problem. The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the user should have to install the latest java virtual machine available at http://www.java.com/download/. Java was chosen due to its exibility at creating and managing list and its multiplatform
+This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. Two versions are available: RanFoG_class.jar for classification problems (discrete phenotypes) and RanFoG_reg.jar for regression problems (continuous phenotypes). The user may choose the version that best adapts to her/his problem. The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the user should have to install the latest java virtual machine available at http://www.java.com/download/. Java was chosen due to its flexibility at creating and managing list and its multiplatform
 characteristics.
 
 ## Purpose.
@@ -121,11 +121,8 @@ The files 'Predictions.txt' and 'Trees.test' are generated from predictions in t
 
 [2] Breiman L. Random forest. Machine Learning, 45(1):5-32, 2001.
 
-[3] Gonzalez-Recio O. and S. Forni. Analyses of discrete traits in a genomic
-selection context using bayesian regressions and machine learning. in prepa-
-ration, pages 01, 2010.
+[3] Gonzalez-Recio O. and S. Forni. 2011. Genome-wide prediction of discrete traits using bayesian regressions and machine learning. Genetics Selection Evolution volume 43: 7.
 
 [4] Breiman L. Bagging predictors. Machine Learning, 24:123-140, 1996.
 
-[5] Tibshirani R., 1996. Bias, variance, and prediction error for classication
-rules. Technical Report, Statistics Department, University of Toronto.
+[5] Tibshirani R., 1996. Bias, variance, and prediction error for classification rules. Technical Report, Statistics Department, University of Toronto.
