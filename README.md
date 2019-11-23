@@ -70,7 +70,7 @@ At each iteration the program prompts the iteration number, the mean squared err
 
 Example of classification problems:
 
-Disease statuts must be coded as 0=non-aected or 1=aected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
+Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
 
 File1
 outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
@@ -96,24 +96,24 @@ Here, a classification Random Forest of 500 trees will be implemented using file
 
 ### Output files
 
-RanFoG creates six output les which are organized in columns separated by spaces. Four of them are referred to inferences made on the training file: 'Variable_Importance.txt', 'TimesSelected.txt', 'Trees.txt' and 'EGBV.txt'.
+RanFoG creates six output files which are organized in columns separated by spaces. Four of them are referred to inferences made on the training file: 'Variable_Importance.txt', 'TimesSelected.txt', 'Trees.txt' and 'EGBV.txt'.
 
--Variable_Importance.txt . This file is organized in columns ordered by covariate in the input file. First column is the order of the covariate in the input file, and second column is the variable importance. The higher the value in the second column, the more important the variable is. To obtain the relative variable importance, these values have to be divided by the maximum variable importance among all covariates. Then, values will range between 0 and 1 and the variableimportance is called 'relative' because it is expressed with respect to the most important covariate. Therefore, after this transformation, the most important covariate will have value equal 1, whereas the
+-Variable_Importance.txt -- This file is organized in columns ordered by covariate in the input file. First column is the order of the covariate in the input file, and second column is the variable importance. The higher the value in the second column, the more important the variable is. To obtain the relative variable importance, these values have to be divided by the maximum variable importance among all covariates. Then, values will range between 0 and 1 and the variableimportance is called 'relative' because it is expressed with respect to the most important covariate. Therefore, after this transformation, the most important covariate will have value equal 1, whereas the
 rest of them will have a relative importance value with respect to 1. To know details on the calculation of variable importance, please
 refer to [3].
 
--TimesSelected.txt . This file is organized in columns ordered by covariate in the input file. First column is the order of the covariate in the input file, and second column is the number of times a covariate is selected to split a node. This file may provide an insight of the importance of the covariates, however, to know their real importance, the user must use the 'Variable_Importance.txt ' file.
+-TimesSelected.txt -- This file is organized in columns ordered by covariate in the input file. First column is the order of the covariate in the input file, and second column is the number of times a covariate is selected to split a node. This file may provide an insight of the importance of the covariates, however, to know their real importance, the user must use the 'Variable_Importance.txt ' file.
 
--Trees.txt . This file is also organized in columns ordered by tree constructed. The first column is the missclasication rate in the training file using the bootstrapped sample, whereas the second column is the missclassification rate in the respective out-of-bag sample. Please, refer to [3] for details on how these sample sets are constructed.
+-Trees.txt -- This file is also organized in columns ordered by tree constructed. The first column is the missclasification rate in the training file using the bootstrapped sample, whereas the second column is the missclassification rate in the respective out-of-bag sample. Please, refer to [3] for details on how these sample sets are constructed.
 
--EGBV.txt . This file contains two columns. The first one is the corresponding ID of individuals in the training set. The second column is the estimated value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in
+-EGBV.txt -- This file contains two columns. The first one is the corresponding ID of individuals in the training set. The second column is the estimated value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in
 classification problems. 
 
 The files 'Predictions.txt' and 'Trees.test' are generated from predictions in the testing file.
 
--Trees.test . This is a single column file containing the misclassification rate of individuals in the testing file ordered by tree. Therefore, first row is the missclassification rate after the first tree is constructed, and the last row is the missclassification rate after the whole forest was grown. Please, refer to [3] for details on how predictions are calculated.
+-Trees.test -- This is a single column file containing the misclassification rate of individuals in the testing file ordered by tree. Therefore, first row is the missclassification rate after the first tree is constructed, and the last row is the missclassification rate after the whole forest was grown. Please, refer to [3] for details on how predictions are calculated.
 
--Predictions.txt . This file contains two columns. The first one is the corresponding ID of individuals in the testing set. The second column is the predicted value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in classification events.
+-Predictions.txt -- This file contains two columns. The first one is the corresponding ID of individuals in the testing set. The second column is the predicted value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in classification events.
 
 ## Bibliography
 
