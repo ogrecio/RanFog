@@ -2,7 +2,7 @@
 A java program to implement Random Forest in a general framework
 
 ## Introduction
-This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. Two versions are available: RanFoG_class.jar for classication problems (discrete phenotypes) and RanFoG_reg.jar for regression problems (continuous phenotypes). The user may choose the version that best adapts to her/his problem. The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the user should have to install the latest java virtual machine available at http://www.java.com/download/. Java was chosen due to its exibility at creating and managing list and its multiplatform
+This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. Two versions are available: RanFoG_class.jar for classification problems (discrete phenotypes) and RanFoG_reg.jar for regression problems (continuous phenotypes). The user may choose the version that best adapts to her/his problem. The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the user should have to install the latest java virtual machine available at http://www.java.com/download/. Java was chosen due to its exibility at creating and managing list and its multiplatform
 characteristics.
 
 ## Purpose.
@@ -29,18 +29,23 @@ file1 is the training file,
 file2 is the testing file, and
 s is the number of covariates or SNPs that are going to be analyzed.
 
-All arguments must be passed to the program and the order must be kept. Note that in this case the file RanFoG_class.jar or RanFoG_class.jar must be in the same folder as the training and testing les. The 'java -jar RanFog_x.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code in the RanFoG program.
+All arguments must be passed to the program and the order must be kept. Note that in this case the file RanFoG_class.jar or RanFoG_class.jar must be in the same folder as the training and testing files. The 'java -jar RanFog_x.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code in the RanFoG program.
 
 ### Preparing files
-The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the response variable (linear phenotype or disease status). Second column is the ID of the individual. Then, p columns with the genotype code of each marker, coded from 0 to the number of possible genotypes (maximum value=2). In case no predictions are neccesary, the user must still provide a testing set. Just copy a few lines of the training le to create a testing file, and use it as if it were a real testing le. Then, discard the 'Trees.test' and 'Predictions.txt' files.
+The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the response variable (linear phenotype or disease status). Second column is the ID of the individual. Then, p columns with the genotype code of each marker, coded from 0 to the number of possible genotypes (maximum value=2). In case no predictions are neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing le. Then, discard the 'Trees.test' and 'Predictions.txt' files.
 
 ### Example of regression problems:
 
 File1
+
 -0.333 1 2 2 1 1 0 1 1 1 0 2 1 2 1 0 1 1 0 2 1 0
+
 -1.112 2 0 0 2 1 1 1 1 2 0 0 1 1 0 1 0 1 0 0 1 0
+
 +1.960 3 1 2 2 1 0 0 2 2 0 1 1 1 0 1 1 2 2 2 1 0
+
 +0.444 4 1 1 1 2 2 1 0 0 1 1 0 1 1 1 0 0 0 2 0 2
+
 -0.451 5 1 2 0 1 2 1 2 0 0 2 1 2 2 1 1 0 0 1 1 0
 
 File2
@@ -105,10 +110,14 @@ The files 'Predictions.txt' and 'Trees.test' are generated from predictions in t
 
 ## Bibliography
 [1] Horstmann C. Java Concepts. John Wiley and Sons, Inc, 2008.
+
 [2] Breiman L. Random forest. Machine Learning, 45(1):5-32, 2001.
+
 [3] Gonzalez-Recio O. and S. Forni. Analyses of discrete traits in a genomic
 selection context using bayesian regressions and machine learning. in prepa-
 ration, pages 01, 2010.
+
 [4] Breiman L. Bagging predictors. Machine Learning, 24:123-140, 1996.
+
 [5] Tibshirani R., 1996. Bias, variance, and prediction error for classication
 rules. Technical Report, Statistics Department, University of Toronto.
