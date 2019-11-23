@@ -73,19 +73,32 @@ Example of classification problems:
 Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
 
 File1
+
+
 outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
+
 1 1 0 0 1 0 1 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0
+
 1 2 0 1 0 0 1 0 0 0 1 1 1 0 0 0 0 0 1 1 0 0
+
 0 3 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1
+
 0 4 0 0 0 0 1 0 0 1 0 1 1 1 0 0 0 0 0 0 1 0
+
 0 5 0 1 0 1 1 1 1 1 0 0 1 1 1 0 0 1 0 0 1 1
 
 File2
+
 outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
+
 1 11 0 1 1 1 1 0 1 0 0 1 0 1 1 1 0 0 0 0 1 0
+
 0 12 0 0 1 0 0 0 1 0 1 1 0 0 1 1 1 1 0 1 0 0
+
 0 13 1 0 0 0 1 0 0 1 0 1 1 0 0 0 1 0 0 0 1 1
+
 1 14 1 1 0 1 0 1 1 0 1 1 1 0 0 1 0 0 1 0 0 0
+
 0 15 0 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 0
 
 Execution order in this case would be:
