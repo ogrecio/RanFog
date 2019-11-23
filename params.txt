@@ -1,0 +1,11 @@
+#Input files
+training=F3.ranfog_f1_thr45.txt
+testing=F3.ranfog_f2.txt
+
+#Forest parameters 
+ForestSize=500
+m=50
+N_SNP=200
+LossFunction_discrete=2
+LossFunction_cont=2
+max_branch=200
