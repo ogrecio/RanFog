@@ -29,6 +29,23 @@ file1 is the training file,
 file2 is the testing file, and
 s is the number of covariates or SNPs that are going to be analyzed.
 
+### params.txt file 
+
+****
+
+Loss_function_option:
+    1.-Information Gain:
+    2.-L2: This is the standard mean squared error loss. This opction can be used with continuous and discrete covariates and response variable.
+    3.-pseudo-Huber
+    4.-Cost function
+    5.-Gini Index
+
+
+
+
+
+
+
 All arguments must be passed to the program and the order must be kept. Note that in this case the file RanFoG_class.jar or RanFoG_class.jar must be in the same folder as the training and testing files. The 'java -jar RanFog_x.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code in the RanFoG program.
 
 ### Preparing files
