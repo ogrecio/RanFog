@@ -77,8 +77,11 @@ training= *training_file* ``` A string with the name or path to the training fil
 testing= *testing file*   ``` A string with the name or path to the testing file``` 
 
 ForestSize= *integer*     ```Number of trees to be grown```
+
 m= *integer*              ```Number of random features to be checked to split the node```
+
 N_features= *integer*     ```Number of features in the files```
+
 max_branch= *integer*     ```Number of expected branches per tree.```
 
 > *max_branch* is a internal parameter. More complez trees need of large max_branch value (>5000). A larger value of max_branch is needed if this error is prompted: 
@@ -86,6 +89,7 @@ max_branch= *integer*     ```Number of expected branches per tree.```
 >	at RanFog.main(RanFog.java:322)
           
 LossFunction= *integer*     ```Loss function used to split the nodes.```
+
 >Loss_function_option:
 >    1.-Information Gain:
 >    2.-L2: This is the standard mean squared error loss. This opction can be used with continuous and discrete covariates and response variable.
