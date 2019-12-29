@@ -49,7 +49,7 @@ public class RanFog{
 		//Max number of trees to be constructed
 		int max_tree=Integer.parseInt(demoProperties.getProperty("ForestSize"));
 		//Number of classified Features
-		int N_SNP = Integer.parseInt(demoProperties.getProperty("N_SNP"));
+		int N_SNP = Integer.parseInt(demoProperties.getProperty("N_features"));
 		//Name of training file; Load training file
 		File trnFile = new File(demoProperties.getProperty("training"));
 		//Name of testing file; Load testing file
@@ -59,9 +59,20 @@ public class RanFog{
 		//Max number of branches allowed
 		int max_branch=Integer.parseInt(demoProperties.getProperty("max_branch"));
 		//Loss function used for discrete features
-		String LF_d=demoProperties.getProperty("LossFunction_discrete");
+//		String LF_d=demoProperties.getProperty("LossFunction_discrete");
 		//Loss function used for continuous features
-		String LF_c=demoProperties.getProperty("LossFunction_cont");
+		String LF_c=demoProperties.getProperty("LossFunction");
+		double false_positive_cost; double false_negative_cost;
+		if (null == demoProperties.getProperty("false_positive_cost")) {
+			false_positive_cost=0;
+		}else{
+			false_positive_cost=Double.parseDouble(demoProperties.getProperty("false_positive_cost"));
+		}
+		if (null == demoProperties.getProperty("false_negative_cost")) {
+			false_negative_cost=0;
+		}else{
+			false_negative_cost=Double.parseDouble(demoProperties.getProperty("false_negative_cost"));
+		}
 
 /**End loading parameter file
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*/
@@ -71,6 +82,20 @@ public class RanFog{
 		//int N_SNP=Integer.parseInt(args[3]); //Number of classified Features
 		int N_attributes=0; //Number of total features
 		System.out.println("Number of SNPs (classified Features): "+N_SNP);
+		System.out.print("RanFoG will run with Loss Function option: ");
+		if (Integer.parseInt(LF_c) == 1){
+			System.out.println("Information Gain");
+		}else if(Integer.parseInt(LF_c) ==2){
+			System.out.println("Mean Squared Error (L2 function)");
+		}else if(Integer.parseInt(LF_c) ==3){
+			System.out.println("Pseudo Huber");
+		}else if(Integer.parseInt(LF_c) ==4){
+			System.out.println("Personalized Cost Function for categories");
+		}else if(Integer.parseInt(LF_c) ==5){
+			System.out.println("Gini Index");
+		}
+		System.out.println();
+
 		
 		/**Initialize counter variables*/
 		int  j=0, k=0, i=0, N_tot=0, N_tst=0, N_oob=0;
@@ -97,6 +122,7 @@ public class RanFog{
 		}
 		System.out.println("Number of genotypes (lines) in training set: "+N_tot);
 		System.out.println("Number of total Attributes detected: "+N_attributes);
+		System.out.println();
 
 		// read the number of lines in the testing file
 		try {
@@ -243,11 +269,11 @@ public class RanFog{
         	node=N_attributes;minLoss=99999999.d;
     		//Calculate Entropy in branch[k]
     		node_mse=0.d;	
-    		node_mse=LossFunction.getLossFunctionNode(LF_c, branch[k], phenotype, Genotype);
+    		node_mse=LossFunction.getLossFunctionNode(LF_c, branch[k], phenotype, Genotype, false_positive_cost, false_negative_cost);
 
     		for (j=0; j<N_attributes;j++){  //calculate MSE, and select that SNP minimizing MSE
         	 if (x1.nextDouble()< m/(1.d*N_attributes) ){ //Select only sqrt(N_attributes) variables
-            	Loss=LossFunction.getLossFunctionSplit(LF_c, j, branch[k], phenotype, Genotype);		 
+            	Loss=LossFunction.getLossFunctionSplit(LF_c, j, branch[k], phenotype, Genotype, false_positive_cost, false_negative_cost);		 
             	if (Loss<minLoss){  //For non-classified attributes
                    	 //Calculate mean for SNP j
                    	mean_j=0.d;
@@ -358,7 +384,7 @@ public class RanFog{
 				}else{
 					temp=branch[k].getMean(phenotype);
 				}
-				MSE_oob=MSE_oob+LossFunction.getLossFunctionOOB(LF_c, branch_oob[k], phenotype, temp); //Math.abs(phenotype[branch_oob[k].list.get(i)]-temp);
+				MSE_oob=MSE_oob+LossFunction.getLossFunctionOOB(LF_c, branch_oob[k], phenotype, temp, false_positive_cost, false_negative_cost); //Math.abs(phenotype[branch_oob[k].list.get(i)]-temp);
 			}
 		}
 		k=0;
@@ -400,13 +426,12 @@ public class RanFog{
 					}else{
 						temp=branch[k].getMean(phenotype);
 					}
-					MSE_vi=MSE_vi+LossFunction.getLossFunctionOOB(LF_c, branch_oob[k], phenotype, temp); //Math.abs(phenotype[branch_oob[k].list.get(i)]-temp);
+					MSE_vi=MSE_vi+LossFunction.getLossFunctionOOB(LF_c, branch_oob[k], phenotype, temp, false_positive_cost, false_negative_cost); //Math.abs(phenotype[branch_oob[k].list.get(i)]-temp);
 				}
 			}
 			MSE_vi=MSE_vi/N_oob; //compare miss-classification rate permuting Feature j on MSE_oob
 			VI[j]=VI[j]+((MSE_vi-MSE_oob))/max_tree; //Add variable importance and average over total trees
 		}
-		outTree.println( MSE_tree/N_tot+" "+MSE_oob );
 		
 		//Calculate miss-classification rate at this tree for the testing set
 		MSEval_tree=0.d;
@@ -415,6 +440,7 @@ public class RanFog{
 		}
 		System.out.println("Iteration #"+(n_tree+1)+";MSE in testing set="+MSEval_tree/N_tst);
 		System.out.println("average Loss Function in OOB="+MSE_oob_ave/(float)(n_tree+1)+"; N_oob="+N_oob);
+		outTree.println( MSE_oob_ave/(float)(n_tree+1) + " " + MSE_oob );
 		outTreeTest.println( MSEval_tree/N_tst);
 	    n_tree++;//go to next tree
      } //over n_tree
@@ -445,3 +471,7 @@ public class RanFog{
 	System.runFinalization();
 	} // end main method	
 } //end program
+
+
+
+

@@ -22,7 +22,8 @@ public class LossFunction{
 
 	String type;
 
-	public static double getLossFunctionNode (String type, Branch a, double phenotype[], double Genotype [][]){
+
+	public static double getLossFunctionNode (String type, Branch a, double phenotype[], double Genotype [][], double false_positive_cost, double false_negative_cost){
 		int i=0;
 		double LF_val=0,mean=0;
 		int nn=0;
@@ -70,8 +71,8 @@ public class LossFunction{
 				
 				//This is the cost variable of incorrectly classify individuals
 					double [] cost= new double[2];
-					cost[0]=2; //Cost of a false positive (individual incorrectly assigned y_hat=1  
-					cost[1]=1; //Cost of a false negative (individual incorrectly assigned y_hat=0
+					cost[0]=false_positive_cost; //Cost of a false positive (individual incorrectly assigned y_hat=1
+					cost[1]=false_negative_cost; //Cost of a false negative (individual incorrectly assigned y_hat=0 
 					
 	    		//Calculate mean for SNP j
         		mean=0.d;
@@ -109,7 +110,7 @@ public class LossFunction{
 		} //end of switch statement
 		return LF_val;
 	}
-	public static double getLossFunctionSplit (String type, int snp, Branch a, double phenotype[], double Genotype [][]){
+	public static double getLossFunctionSplit (String type, int snp, Branch a, double phenotype[], double Genotype [][], double false_positive_cost, double false_negative_cost){
 		int i=0;
 		double LF_val=0,mean=0;
 		double mean_right=0.0d,mean_left=0.0d;
@@ -226,8 +227,8 @@ public class LossFunction{
 				
 				//This is the cost variable of incorrectly classify individuals
 					double [] cost= new double[2];
-					cost[0]=2; //Cost of a false positive (individual incorrectly assigned y_hat=1
-					cost[1]=1; //Cost of a false negative (individual incorrectly assigned y_hat=0 
+					cost[0]=false_positive_cost; //Cost of a false positive (individual incorrectly assigned y_hat=1
+					cost[1]=false_negative_cost; //Cost of a false negative (individual incorrectly assigned y_hat=0 
 					
 	    		//Calculate mean for SNP j
         		mean=0.d;
@@ -298,7 +299,7 @@ public class LossFunction{
 		} //end of switch statement
 		return LF_val;
 	}
-	public static double getLossFunctionOOB (String type, Branch a, double phenotype[], double yhat){
+	public static double getLossFunctionOOB (String type, Branch a, double phenotype[], double yhat, double false_positive_cost, double false_negative_cost){
 		int i=0;
 		double LF_val=0;
 		int nn=0;
@@ -338,8 +339,8 @@ public class LossFunction{
 				
 				//This is the cost variable of incorrectly classify individuals
 					double [] cost= new double[2];
-					cost[0]=2; //Cost of a false positive (individual incorrectly assigned y_hat=1  
-					cost[1]=1; //Cost of a false negative (individual incorrectly assigned y_hat=0
+					cost[0]=false_positive_cost; //Cost of a false positive (individual incorrectly assigned y_hat=1
+					cost[1]=false_negative_cost; //Cost of a false negative (individual incorrectly assigned y_hat=0 
 
         		for (i=0;i<a.list.size();i++){
        				if ((int)phenotype[a.list.get(i)] != (int)yhat){;
@@ -361,7 +362,8 @@ public class LossFunction{
         		GI=(nGI[0])*(nGI[1])+
         		   (nGI[0])*(nGI[2])+
         		   (nGI[1])*(nGI[2]);
-        		LF_val=GI/(float)(nn);
+        		LF_val=GI/(float)(nn*nn);
+        		if(nn==0) LF_val=0;
 				break;			
 			default: //Wrong entered number 
 				System.out.println("Error!  Illegal option number of Loss Function type!  I quit!");
