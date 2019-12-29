@@ -14,9 +14,13 @@ running errors or suggestions are welcome and encouraged.
 ## 1 - How to execute RanFoG
 RanFoG must be run in a command line mode. The execution is simple, just type in the command line the following order depending on your problem category:
 
+```
 java -jar RanFoG.jar 
+```
 
-RanFoG needs a parameter file named 'params.txt' (care needs to be taken to store different runs in different folders, or RanFoG will overwrite previous results).
+RanFoG needs a parameter file named 'params.txt' 
+
+>care needs to be taken to store different runs in different folders, or RanFoG will overwrite previous results.
 
 At each iteration the program prompts the iteration number, the mean squared error in the testing set, the vaue of the Loss Function in the out of bag samples (which provides an estimate for the generalization error), and the number of records in the out of bag samples.
 
@@ -120,7 +124,7 @@ A personalized Cost Function can be implemented on dicotomous response variables
 
 
 
-Note that in that the param.txt file must be in the same directory as RanFoG.jar The 'java -jar RanFog.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code.
+> Note that in that the param.txt file must be in the same directory as RanFoG.jar The 'java -jar RanFog.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code.
 
 
 
