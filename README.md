@@ -2,7 +2,9 @@
 A java program to implement Random Forest in a general framework
 
 ## Introduction
-This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. Two versions are available: RanFoG_class.jar for classification problems (discrete phenotypes) and RanFoG_reg.jar for regression problems (continuous phenotypes). The user may choose the version that best adapts to her/his problem. The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the user should have to install the latest java virtual machine available at http://www.java.com/download/. Java was chosen due to its flexibility at creating and managing list and its multiplatform
+This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. Two versions are available: RanFoG_class.jar for classification problems (discrete phenotypes) and RanFoG_reg.jar for regression problems (continuous phenotypes). The user may choose the version that best adapts to her/his problem. 
+
+The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the user should have to install the latest java virtual machine available at http://www.java.com/download/. Java was chosen due to its flexibility at creating and managing list and its multiplatform
 characteristics.
 
 ## Purpose
@@ -13,116 +15,111 @@ running errors or suggestions are welcome and encouraged.
 ### Way of execution
 RanFoG must be run in a command line mode. The execution is simple, just type in the command line the following order depending on your problem category:
 
-for classification problems:
+java -jar RanFoG.jar 
 
-java -jar RanFoG_class.jar t file1 file2 s
-
-for regression problems:
-
-java -jar RanFoG_reg.jar t file1 file2 s
-
-t, file1, file2 and s are the four arguments that must be passed to the
-program:
-
-t is the number of trees to grow in the forest,
-file1 is the training file,
-file2 is the testing file, and
-s is the number of covariates or SNPs that are going to be analyzed.
+RanFoG needs a parameter file named 'params.txt' (care needs to be taken to store different runs in different folders, or RanFoG will overwrite previous results).
 
 ### params.txt file 
+The parameter file needs the following options:
 
-****
+
+training= training_file //A string with the name or path to the training file
+
+testing=testing file //A string with the name or path to the testing file
+
+ForestSize=integer //Number of trees to be grown
+m=integer              //Number of random features to be checked to split the node
+N_features=integer     //Number of features in the files
+max_branch=integer    //Number of expected branches per tree. This is a internal parameter. More complez trees need of large max_branch value (>5000). A larger value of max_branch is needed if this error is prompted: 
+java.lang.ArrayIndexOutOfBoundsException: 100
+	at RanFog.main(RanFog.java:322)
+          
 
 Loss_function_option:
     1.-Information Gain:
     2.-L2: This is the standard mean squared error loss. This opction can be used with continuous and discrete covariates and response variable.
     3.-pseudo-Huber
-    4.-Cost function
+    4.-Personalized Cost function
     5.-Gini Index
 
+The L2 and pseudo-Huber loss functions can be used with categorical and continuous features and response variables.
+The Information Gain can only be used with dicotomous response variable (0 or 1), and a maximum of three classes in the features (0, 1 or 2).
+The Gini Index can be used with categorical response variable up to three classes codified as 0, 1 or 2. It allows continuous or classified (up to a maximum of three classes coddified as 0, 1 or 2) features.
+
+A personalized Cost Function can be implemented on dicotomous response variables. It accepts any sort of features. Aditional parameters must be included in the params.txt file:
+	false_positive_cost=cost1; //Cost of a false positive (individual incorrectly assigned y_hat=1)
+	false_negative_cost=cost2; //Cost of a false negative (individual incorrectly assigned y_hat=0)
 
 
 
 
-
-
-All arguments must be passed to the program and the order must be kept. Note that in this case the file RanFoG_class.jar or RanFoG_class.jar must be in the same folder as the training and testing files. The 'java -jar RanFog_x.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code in the RanFoG program.
+Note that in that the param.txt file must be in the same directory as RanFoG.jar The 'java -jar RanFog.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code.
 
 ### Preparing files
-The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the response variable (linear phenotype or disease status). Second column is the ID of the individual. Then, p columns with the genotype code of each marker, coded from 0 to the number of possible genotypes (maximum value=2). In case no predictions are neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing file. Then, discard the 'Trees.test' and 'Predictions.txt' files.
+The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the numerical response variable (linear phenotype or disease status). Second column is the alphanumeric ID of the individual. Then, p columns with the value of each feature. In case that predictions are not neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing file. Then, discard the 'Trees.test' and 'Predictions.txt' files.
 
 ### Example of regression problems:
 
 File1
 
--0.333 1 2 2 1 1 0 1 1 1 0 2 1 2 1 0 1 1 0 2 1 0
+-0.333 ID_1 2 2 1 1 0 1 1 1 0 2 1.1 3.4 5.3 
 
--1.112 2 0 0 2 1 1 1 1 2 0 0 1 1 0 1 0 1 0 0 1 0
+-1.112 ID_2 0 0 2 1 1 1 1 2 0 0 0.5 1.73 -3.5
 
-+1.960 3 1 2 2 1 0 0 2 2 0 1 1 1 0 1 1 2 2 2 1 0
++1.960 ID_3 1 2 2 1 0 0 2 2 0 1 3.5 1.33 -0.5
 
-+0.444 4 1 1 1 2 2 1 0 0 1 1 0 1 1 1 0 0 0 2 0 2
++0.444 ID_4 1 1 1 2 2 1 0 0 1 1 1.5 -6.3 9.15
 
--0.451 5 1 2 0 1 2 1 2 0 0 2 1 2 2 1 1 0 0 1 1 0
+-0.451 ID_5 1 2 0 1 2 1 2 0 0 2 -0.5 1.3 5.0
 
 File2
 
-+0.343 2001 0 2 1 0 0 1 1 1 1 2 2 2 2 1 1 1 1 2 1 2
++0.343 ID_2001 0 2 1 0 0 1 1 1 1 2 2.1 -3.4 1.0
 
--0.617 2002 1 2 1 0 0 0 2 2 2 0 1 0 2 1 2 1 2 2 1 2
+-0.617 ID_2002 1 2 1 0 0 0 2 2 2 0 1.0 4.1 -8.1
 
-+0.437 2003 0 1 2 2 0 1 1 2 1 0 0 1 0 0 2 1 1 1 1 2
++0.437 ID_2003 0 1 2 2 0 1 1 2 1 0 0.0 -1.2 -4.3
 
-+0.293 2004 1 1 2 0 1 1 0 1 2 0 1 0 2 0 2 2 0 1 1 2
++0.293 ID_2004 1 1 2 0 1 1 0 1 2 0 1.2 2.1 2.3
 
-+2.131 2005 0 2 0 1 0 2 0 2 0 2 2 1 2 1 0 1 0 1 1 0
++2.131 ID_2005 0 2 0 1 0 2 0 2 0 2 -3 -4.1 1.2
 
-Execution order in this case would be:
 
-java -jar RanFoG_reg.jar 500 file1 file2 20
-
-Here, a regression Random Forest of 500 trees will be implemented using file1 as training set, file2 as testing set, with the first 20 SNPs or covariates. This is a screen capture image of how to run RanFog_reg.jar and the first lines of the execution:
-
-At each iteration the program prompts the iteration number, the mean squared error in the testing set, the mean squared error in the out of bag samples (which provides an estimate for the generalization error), and the number of records in the out of bag samples.
-
-Example of classification problems:
+### Example of classification problems:
 
 Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
 
-File1
-
-
-outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
-
-1 1 0 0 1 0 1 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0
-
-1 2 0 1 0 0 1 0 0 0 1 1 1 0 0 0 0 0 1 1 0 0
-
-0 3 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1
-
-0 4 0 0 0 0 1 0 0 1 0 1 1 1 0 0 0 0 0 0 1 0
-
-0 5 0 1 0 1 1 1 1 1 0 0 1 1 1 0 0 1 0 0 1 1
-
-File2
+Training file
 
 outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
 
-1 11 0 1 1 1 1 0 1 0 0 1 0 1 1 1 0 0 0 0 1 0
+1 ID_1 0 0 1 0 1 0 2 0 0 1 1 0 0 0 0 0 1 0 0 0
 
-0 12 0 0 1 0 0 0 1 0 1 1 0 0 1 1 1 1 0 1 0 0
+1 ID_2 0 1 0 0 1 0 2 0 1 1 1 0 0 0 0 0 1 1 0 0
 
-0 13 1 0 0 0 1 0 0 1 0 1 1 0 0 0 1 0 0 0 1 1
+0 ID_3 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1
 
-1 14 1 1 0 1 0 1 1 0 1 1 1 0 0 1 0 0 1 0 0 0
+0 ID_4 0 0 0 0 1 0 0 1 0 1 1 1 0.4 0 0 0 0 0 1 0
 
-0 15 0 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 0
+2 ID_5 -0.5 1 0 1 1 1 1 1 0 0 1 1 1 0 0 1 0 0 1 1
 
-Execution order in this case would be:
+Testing file
 
-java -jar RanFoG_class.jar 500 file1 file2 20
+outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
 
-Here, a classification Random Forest of 500 trees will be implemented using file1 as training set, file2 as testing set, with the first 20 SNPs or covariates. RanFoG will prompt the following message if it completes all the interation without errors:
+1 ID_11 0 1 1 1 2 0 1 0 0 1 0 1 1 1 0 0 0 0 1 0
+
+0 ID_12 0 0 1 0 0.4 0.6 1 0 1 1 0 0 2 1 1 1 0 1 0 0
+
+2 ID_13 1 0 0 0 1 0 0 1 0 1 1 0 0 0 1 0 0 0 1 1
+
+1 ID_14 1 1 0 1 0 1 1 0 1 1 1 0 2 1 0 0 1 0 0 0
+
+0 ID_15 0.3 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 0
+
+
+At each iteration the program prompts the iteration number, the mean squared error in the testing set, the vaue of the Loss Function in the out of bag samples (which provides an estimate for the generalization error), and the number of records in the out of bag samples.
+
 
 ### Output files
 
