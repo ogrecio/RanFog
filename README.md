@@ -1,17 +1,19 @@
-# RanFog
+# RanFoG
 A java program to implement Random Forest in a general framework
 
-## Introduction
-This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. Two versions are available: RanFoG_class.jar for classification problems (discrete phenotypes) and RanFoG_reg.jar for regression problems (continuous phenotypes). The user may choose the version that best adapts to her/his problem. 
+# Introduction
+This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. RanFoG can perform classificatio and regression problems. 
 
-The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the user should have to install the latest java virtual machine available at http://www.java.com/download/. Java was chosen due to its flexibility at creating and managing list and its multiplatform
+The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the latest java virtual machine needs to be installedd. This is available at http://www.java.com/download/. 
+
+Java was chosen due to its flexibility at creating and managing list and its multiplatform
 characteristics.
 
-## Purpose
+# Purpose
 This manual does not aim to thoroughly describe Random Forest theory or methodological details behind RanFoG code,but to be a self-explanatory guide to implement RanFoG in user's own data. Random Forest theory and methods implemented in Ran-FoG can be found in [2] and [3]. The user is encouraged to consult them for details. This is a developing software, therefore any feedback on possible bugs, problems,
 running errors or suggestions are welcome and encouraged.
 
-## 1 - How to execute RanFoG
+# 1 - How to execute RanFoG
 RanFoG must be run in a command line mode. The execution is simple, just type in the command line the following order depending on your problem category:
 
 ```
@@ -26,9 +28,9 @@ RanFoG needs a parameter file named 'params.txt'
 At each iteration the program prompts the iteration number, the mean squared error in the testing set, the vaue of the Loss Function in the out of bag samples (which provides an estimate for the generalization error), and the number of records in the out of bag samples.
 
 
-## 2 - Input Files
+# 2 - Input Files
 
-### Data files
+## Data files
 The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the numerical response variable (linear phenotype or disease status). Second column is the alphanumeric ID of the individual. Then, p columns with the value of each feature. 
 
 ```
@@ -37,7 +39,7 @@ outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s2
 
 In case that predictions are not neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing file. Then, discard the 'Trees.test' and 'Predictions.txt' files.
 
-#### Example of regression problems:
+### Example of regression problems:
 
 * *Training Data file* *
 
@@ -50,7 +52,7 @@ In case that predictions are not neccesary, the user must still provide a testin
 
 
 
-#### Example of classification problems:
+### Example of classification problems:
 
 Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
 
@@ -66,7 +68,7 @@ Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from 
 ![Testing data set](testing_cat.png)
 
 
-### params.txt file 
+## params.txt file 
 The parameter file needs the following options:
 
 
@@ -100,7 +102,9 @@ LossFunction= *integer*     ```Loss function used to split the nodes.```
 >	false_negative_cost=cost2; //Cost of a false negative (individual incorrectly assigned y_hat=0)
 
 
+Below is an example of the *params.txt* file.
 
+![Parameter file](params.txt)
 
 **Note:** the param.txt file must be in the same directory as RanFoG.jar The 'java -jar RanFog.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code.
 
