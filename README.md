@@ -117,7 +117,7 @@ Below is an example of the *params.txt* file.
 
 
 
-## 3 - Output files
+# 3 - Output files
 
 RanFoG creates six output files which are organized in columns separated by spaces. Four of them are referred to inferences made on the training file: 'Variable_Importance.txt', 'TimesSelected.txt', 'Trees.txt' and 'EGBV.txt'.
 
@@ -136,7 +136,7 @@ The files *Predictions.txt* and *Trees.test* are generated from predictions in t
 
 - *Predictions.txt* -- This file contains two columns. The first one is the corresponding ID of individuals in the testing set. The second column is the predicted value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in classification events.
 
-## Bibliography
+# Bibliography
 
 [1] Horstmann C. Java Concepts. John Wiley and Sons, Inc, 2008.
 
