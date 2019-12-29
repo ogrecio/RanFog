@@ -465,9 +465,9 @@ public class RanFog{
 		outPred.println( ID_tst[i]+" "+formatter.format(y_hat[i]/(n_tree+1)) );
 	}
 	outSel.close();outVI.close();outPred.close();outEGBV.close();
-	System.out.println("Random Forest algorithm for classification problems (Ver.Beta)");
 	System.out.println("TERMINATED WITHOUT ERRORS");
-	System.out.println("by Oscar Gonzalez-Recio (2010) ");
+	System.out.println("Random Forest algorithm for regression and classification problems (Ver.Beta)");
+	System.out.println("by Oscar Gonzalez-Recio (2019) ");
 	System.runFinalization();
 	} // end main method	
 } //end program
