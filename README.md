@@ -100,10 +100,13 @@ LossFunction= *integer*     ```Loss function used to split the nodes.```
 >The L2 and pseudo-Huber loss functions can be used with categorical and continuous features and response variables.
 >The Information Gain can only be used with dicotomous response variable (0 or 1), and a maximum of three classes in the features (0, 1 or 2).
 >The Gini Index can be used with categorical response variable up to three classes codified as 0, 1 or 2. It allows continuous or classified (up to a maximum of three classes coddified as 0, 1 or 2) features.
->
->A personalized Cost Function can be implemented on dicotomous response variables. It accepts any sort of features. Aditional parameters must be included in the params.txt file:
->	false_positive_cost=cost1; //Cost of a false positive (individual incorrectly assigned y_hat=1)
->	false_negative_cost=cost2; //Cost of a false negative (individual incorrectly assigned y_hat=0)
+
+A personalized Cost Function can be implemented on dicotomous response variables. It accepts any sort of features. Aditional parameters must be included in the params.txt file:
+
+>	false_positive_cost= *cost1* ```Cost of a false positive (individual incorrectly assigned y_hat=1)```
+>	false_negative_cost= *cost2* ```Cost of a false negative (individual incorrectly assigned y_hat=0)```
+
+This is useful for problems in which more emphasis needs to be placed on assigning correct values to a given category.
 
 
 Below is an example of the *params.txt* file.
