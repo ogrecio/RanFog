@@ -2,7 +2,7 @@
 A java program to implement Random Forest in a general framework
 
 # Introduction
-This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. RanFoG can perform classificatio and regression problems. 
+This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. RanFoG can perform classification and regression problems. 
 
 The code is written in Java SE 7 [1], which is an object oriented multiplatform operative system, with GNU GPL license and an extense class library. The program is compiled to run in all kind of platforms (windows, linux, mac, ..) that have previously installed the java virtual machine. Please, make sure your computer can run java code, otherwise the latest java virtual machine needs to be installedd. This is available at http://www.java.com/download/. 
 
@@ -14,6 +14,10 @@ This manual does not aim to thoroughly describe Random Forest theory or methodol
 running errors or suggestions are welcome and encouraged.
 
 # 1 - How to execute RanFoG
+
+Download the RanFoG [executable](RanFog.jar).
+
+
 RanFoG must be run in a command line mode. The execution is simple, just type in the command line the following order depending on your problem category:
 
 ```
@@ -43,7 +47,7 @@ In case that predictions are not neccesary, the user must still provide a testin
 
 * *Training Data file* *
 
-![TRaining data set](training_cont.png)
+![Training data set](training_cont.png)
 
 
 * *Testing Data file* *
