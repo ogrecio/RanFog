@@ -20,7 +20,8 @@ java -jar RanFoG.jar
 
 RanFoG needs a parameter file named 'params.txt' 
 
->care needs to be taken to store different runs in different folders, or RanFoG will overwrite previous results.
+>Caution:  
+>  store different runs in different folders, or RanFoG will overwrite previous results.
 
 At each iteration the program prompts the iteration number, the mean squared error in the testing set, the vaue of the Loss Function in the out of bag samples (which provides an estimate for the generalization error), and the number of records in the out of bag samples.
 
@@ -28,73 +29,48 @@ At each iteration the program prompts the iteration number, the mean squared err
 ## 2 - Input Files
 
 ### Data files
-The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the numerical response variable (linear phenotype or disease status). Second column is the alphanumeric ID of the individual. Then, p columns with the value of each feature. In case that predictions are not neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing file. Then, discard the 'Trees.test' and 'Predictions.txt' files.
+The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the numerical response variable (linear phenotype or disease status). Second column is the alphanumeric ID of the individual. Then, p columns with the value of each feature. 
+
+```
+outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
+```
+
+In case that predictions are not neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing file. Then, discard the 'Trees.test' and 'Predictions.txt' files.
 
 #### Example of regression problems:
 
-File1
+* *Training Data file* *
 
--0.333 ID_1 2 2 1 1 0 1 1 1 0 2 1.1 3.4 5.3 
+![TRaining data set](training_cont.png)
 
--1.112 ID_2 0 0 2 1 1 1 1 2 0 0 0.5 1.73 -3.5
 
-+1.960 ID_3 1 2 2 1 0 0 2 2 0 1 3.5 1.33 -0.5
+* *Testing Data file* *
 
-+0.444 ID_4 1 1 1 2 2 1 0 0 1 1 1.5 -6.3 9.15
+![Testing data set](testing_cont.png)
 
--0.451 ID_5 1 2 0 1 2 1 2 0 0 2 -0.5 1.3 5.0
-
-File2
-
-+0.343 ID_2001 0 2 1 0 0 1 1 1 1 2 2.1 -3.4 1.0
-
--0.617 ID_2002 1 2 1 0 0 0 2 2 2 0 1.0 4.1 -8.1
-
-+0.437 ID_2003 0 1 2 2 0 1 1 2 1 0 0.0 -1.2 -4.3
-
-+0.293 ID_2004 1 1 2 0 1 1 0 1 2 0 1.2 2.1 2.3
-
-+2.131 ID_2005 0 2 0 1 0 2 0 2 0 2 -3 -4.1 1.2
 
 
 #### Example of classification problems:
 
 Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
 
-Training file
 
-outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
 
-1 ID_1 0 0 1 0 1 0 2 0 0 1 1 0 0 0 0 0 1 0 0 0
+* *Training Data file* *
 
-1 ID_2 0 1 0 0 1 0 2 0 1 1 1 0 0 0 0 0 1 1 0 0
+![Training data set](training_cat.png)
 
-0 ID_3 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1
 
-0 ID_4 0 0 0 0 1 0 0 1 0 1 1 1 0.4 0 0 0 0 0 1 0
+* *Testing Data file* *
 
-2 ID_5 -0.5 1 0 1 1 1 1 1 0 0 1 1 1 0 0 1 0 0 1 1
-
-Testing file
-
-outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
-
-1 ID_11 0 1 1 1 2 0 1 0 0 1 0 1 1 1 0 0 0 0 1 0
-
-0 ID_12 0 0 1 0 0.4 0.6 1 0 1 1 0 0 2 1 1 1 0 1 0 0
-
-2 ID_13 1 0 0 0 1 0 0 1 0 1 1 0 0 0 1 0 0 0 1 1
-
-1 ID_14 1 1 0 1 0 1 1 0 1 1 1 0 2 1 0 0 1 0 0 0
-
-0 ID_15 0.3 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 0
+![Testing data set](testing_cat.png)
 
 
 ### params.txt file 
 The parameter file needs the following options:
 
 
-training= training_file //A string with the name or path to the training file
+training= * *training_file* * ``` //A string with the name or path to the training file``` 
 
 testing=testing file //A string with the name or path to the testing file
 
