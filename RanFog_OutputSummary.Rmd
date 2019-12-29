@@ -1,0 +1,129 @@
+---
+title: "Output Summary from RanFog"
+author: "Oscar Gonzalez-Recio"
+date: " December 27th, 2019"
+output:
+  html_document: 
+    code_folding: hide
+    collapsed: yes
+    fig_caption: yes
+    fig_width: 6
+    highlight: tango
+    number_sections: yes
+    theme: united
+    toc: yes
+    toc_float: yes
+  pdf_document: # options pour sorties pdf
+    toc: yes
+    toc_depth: '3'
+  word_document: default
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(pander) # allow a better impression of tables
+
+```
+
+
+```{r, output_files, include='TRUE'}
+
+LF_train<-read.table("Trees.txt")
+LF_test<-read.table("Trees.test")
+vi<-read.table("Variable_Importance.txt")
+ts<-read.table("TimesSelected.txt")
+
+ pred_train<-read.table("EGBV.txt")
+ pred_test<-read.table("Predictions.txt")
+
+```
+
+# LOSS FUNCTION
+
+A total of `r dim(LF_train)[1]` iterations of *RanFog* were run. Next is the evolution of the chosen LossFunction at each iteration (gray), average in the Out of Bag set (red) and in the training set (green).
+
+```{r, loss_function_training, include='TRUE'}
+
+max_value<-max(max(LF_train),max(LF_test))
+max_value<-max_value*1.1
+min_value<-min(min(LF_train),min(LF_test))
+min_value<-min_value*0.9
+
+ plot(LF_train$V2,type="l",col="gray",ylim = c(min_value,max_value),ylab="Loss function",main="Loss Function trend",xlab="iteration")
+ lines(LF_train$V1,type="l",col=2)
+ lines(LF_test$V1,type="l",col="green")
+ 
+```
+
+# VARIANCE EXPLAINED in the training set
+
+```{r, include='FALSE'}
+
+	  ytrain<-read.table(file='training_regression.data',header=F)
+
+
+```
+
+The Pearson correlation between observed and predicted phenotype in the training set was `r round(cor(pred_train$V2,ytrain$V1), 2)`.
+
+Next is the scatter plot of the predicted and observed phenotypes in the training set.
+
+```{r, predictive_accuracy_train, include='TRUE'}
+
+
+ plot(pred_train$V2,ytrain$V1,xlab="yHat",ylab="Observed y")
+ lm.fit<-lm(ytrain$V1~pred_train$V2)
+ abline(lm.fit,col=2)
+```
+
+
+The variance explained in the model (R2) was `r round( summary(lm.fit)$adj.r.squared , 2)`.
+
+# PREDICTIVE ACCURACY in the testing set
+
+```{r, include='FALSE'}
+
+	  ytest<-read.table(file='testing_regression.data',header=F)
+
+
+```
+
+The Pearson correlation between observed and predicted phenotype in the testing set was `r round(cor(pred_test$V2,ytest$V1), 2)`.
+
+Next is the scatter plot of the predicted and observed phenotypes in the testing set.
+
+```{r, predictive_accuracy_test, include='TRUE'}
+
+
+ plot(pred_test$V2,ytest$V1,xlab="Prediction",ylab="Observed")
+ lm.fit<-lm(ytest$V1~pred_test$V2)
+ abline(lm.fit,col=2)
+```
+
+
+The variance explained in the model (R2) was `r round( summary(lm.fit)$adj.r.squared , 2)`.
+
+# VARIABLE IMPORTANCE
+
+The features with larger contribution to minimize the loss function were:
+
+```{r, variable_importance, include='TRUE'}
+
+vi<-merge(vi,ts,by=1)
+
+names(vi)<-c("FEATURE_number","Variable_Importance", "Times Selected")
+vi$Percentage_VI<-100*vi$Variable_Importance/max(abs(vi$Variable_Importance))
+vi_subset<-vi[order(vi$`Times Selected`,decreasing = T),]
+
+pander(vi_subset[1:20,])
+
+```
+
+The distribution of the variable importance was:
+
+```{r, variable_importance2, include='TRUE'}
+
+plot(density(vi$Variable_Importance),xlab="Variable Importance", main="")
+
+```
