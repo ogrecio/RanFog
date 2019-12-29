@@ -72,13 +72,13 @@ Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from 
 The parameter file needs the following options:
 
 
-training= *training_file* ``` A string with the name or path to the training file``` 
+training= *training_file*     ```A string with the name or path to the training file``` 
 
-testing= *testing file*   ``` A string with the name or path to the testing file``` 
+testing= *testing file*       ```A string with the name or path to the testing file``` 
 
-ForestSize= *integer*     ```Number of trees to be grown```
+ForestSize= *integer*          ```Number of trees to be grown```
 
-m= *integer*              ```Number of random features to be checked to split the node```
+m= *integer*                  ```Number of random features to be checked to split the node```
 
 N_features= *integer*     ```Number of features in the files```
 
