@@ -11,13 +11,80 @@ characteristics.
 This manual does not aim to thoroughly describe Random Forest theory or methodological details behind RanFoG code,but to be a self-explanatory guide to implement RanFoG in user's own data. Random Forest theory and methods implemented in Ran-FoG can be found in [2] and [3]. The user is encouraged to consult them for details. This is a developing software, therefore any feedback on possible bugs, problems,
 running errors or suggestions are welcome and encouraged.
 
-## Part I - How to use it
-### Way of execution
+## 1 - How to execute RanFoG
 RanFoG must be run in a command line mode. The execution is simple, just type in the command line the following order depending on your problem category:
 
 java -jar RanFoG.jar 
 
 RanFoG needs a parameter file named 'params.txt' (care needs to be taken to store different runs in different folders, or RanFoG will overwrite previous results).
+
+At each iteration the program prompts the iteration number, the mean squared error in the testing set, the vaue of the Loss Function in the out of bag samples (which provides an estimate for the generalization error), and the number of records in the out of bag samples.
+
+
+## 2 - Input Files
+
+### Data files
+The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the numerical response variable (linear phenotype or disease status). Second column is the alphanumeric ID of the individual. Then, p columns with the value of each feature. In case that predictions are not neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing file. Then, discard the 'Trees.test' and 'Predictions.txt' files.
+
+#### Example of regression problems:
+
+File1
+
+-0.333 ID_1 2 2 1 1 0 1 1 1 0 2 1.1 3.4 5.3 
+
+-1.112 ID_2 0 0 2 1 1 1 1 2 0 0 0.5 1.73 -3.5
+
++1.960 ID_3 1 2 2 1 0 0 2 2 0 1 3.5 1.33 -0.5
+
++0.444 ID_4 1 1 1 2 2 1 0 0 1 1 1.5 -6.3 9.15
+
+-0.451 ID_5 1 2 0 1 2 1 2 0 0 2 -0.5 1.3 5.0
+
+File2
+
++0.343 ID_2001 0 2 1 0 0 1 1 1 1 2 2.1 -3.4 1.0
+
+-0.617 ID_2002 1 2 1 0 0 0 2 2 2 0 1.0 4.1 -8.1
+
++0.437 ID_2003 0 1 2 2 0 1 1 2 1 0 0.0 -1.2 -4.3
+
++0.293 ID_2004 1 1 2 0 1 1 0 1 2 0 1.2 2.1 2.3
+
++2.131 ID_2005 0 2 0 1 0 2 0 2 0 2 -3 -4.1 1.2
+
+
+#### Example of classification problems:
+
+Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
+
+Training file
+
+outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
+
+1 ID_1 0 0 1 0 1 0 2 0 0 1 1 0 0 0 0 0 1 0 0 0
+
+1 ID_2 0 1 0 0 1 0 2 0 1 1 1 0 0 0 0 0 1 1 0 0
+
+0 ID_3 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1
+
+0 ID_4 0 0 0 0 1 0 0 1 0 1 1 1 0.4 0 0 0 0 0 1 0
+
+2 ID_5 -0.5 1 0 1 1 1 1 1 0 0 1 1 1 0 0 1 0 0 1 1
+
+Testing file
+
+outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
+
+1 ID_11 0 1 1 1 2 0 1 0 0 1 0 1 1 1 0 0 0 0 1 0
+
+0 ID_12 0 0 1 0 0.4 0.6 1 0 1 1 0 0 2 1 1 1 0 1 0 0
+
+2 ID_13 1 0 0 0 1 0 0 1 0 1 1 0 0 0 1 0 0 0 1 1
+
+1 ID_14 1 1 0 1 0 1 1 0 1 1 1 0 2 1 0 0 1 0 0 0
+
+0 ID_15 0.3 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 0
+
 
 ### params.txt file 
 The parameter file needs the following options:
@@ -55,73 +122,9 @@ A personalized Cost Function can be implemented on dicotomous response variables
 
 Note that in that the param.txt file must be in the same directory as RanFoG.jar The 'java -jar RanFog.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code.
 
-### Preparing files
-The program needs two input files: a training set and a testing set. Inferences will be done using the training set, whereas the testing set will be used to test the predictive ability of Random Forest under the given scenario. Both files must have the same format, with p+2 columns separated by spaces. First column is the numerical response variable (linear phenotype or disease status). Second column is the alphanumeric ID of the individual. Then, p columns with the value of each feature. In case that predictions are not neccesary, the user must still provide a testing set. Just copy a few lines of the training file to create a testing file, and use it as if it were a real testing file. Then, discard the 'Trees.test' and 'Predictions.txt' files.
-
-### Example of regression problems:
-
-File1
-
--0.333 ID_1 2 2 1 1 0 1 1 1 0 2 1.1 3.4 5.3 
-
--1.112 ID_2 0 0 2 1 1 1 1 2 0 0 0.5 1.73 -3.5
-
-+1.960 ID_3 1 2 2 1 0 0 2 2 0 1 3.5 1.33 -0.5
-
-+0.444 ID_4 1 1 1 2 2 1 0 0 1 1 1.5 -6.3 9.15
-
--0.451 ID_5 1 2 0 1 2 1 2 0 0 2 -0.5 1.3 5.0
-
-File2
-
-+0.343 ID_2001 0 2 1 0 0 1 1 1 1 2 2.1 -3.4 1.0
-
--0.617 ID_2002 1 2 1 0 0 0 2 2 2 0 1.0 4.1 -8.1
-
-+0.437 ID_2003 0 1 2 2 0 1 1 2 1 0 0.0 -1.2 -4.3
-
-+0.293 ID_2004 1 1 2 0 1 1 0 1 2 0 1.2 2.1 2.3
-
-+2.131 ID_2005 0 2 0 1 0 2 0 2 0 2 -3 -4.1 1.2
 
 
-### Example of classification problems:
-
-Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from RanFoG will indicate the genetic probability of the animal to suffer the disease.
-
-Training file
-
-outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
-
-1 ID_1 0 0 1 0 1 0 2 0 0 1 1 0 0 0 0 0 1 0 0 0
-
-1 ID_2 0 1 0 0 1 0 2 0 1 1 1 0 0 0 0 0 1 1 0 0
-
-0 ID_3 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 0 1 1 1 1
-
-0 ID_4 0 0 0 0 1 0 0 1 0 1 1 1 0.4 0 0 0 0 0 1 0
-
-2 ID_5 -0.5 1 0 1 1 1 1 1 0 0 1 1 1 0 0 1 0 0 1 1
-
-Testing file
-
-outcome ID s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20
-
-1 ID_11 0 1 1 1 2 0 1 0 0 1 0 1 1 1 0 0 0 0 1 0
-
-0 ID_12 0 0 1 0 0.4 0.6 1 0 1 1 0 0 2 1 1 1 0 1 0 0
-
-2 ID_13 1 0 0 0 1 0 0 1 0 1 1 0 0 0 1 0 0 0 1 1
-
-1 ID_14 1 1 0 1 0 1 1 0 1 1 1 0 2 1 0 0 1 0 0 0
-
-0 ID_15 0.3 1 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 0
-
-
-At each iteration the program prompts the iteration number, the mean squared error in the testing set, the vaue of the Loss Function in the out of bag samples (which provides an estimate for the generalization error), and the number of records in the out of bag samples.
-
-
-### Output files
+## 3 - Output files
 
 RanFoG creates six output files which are organized in columns separated by spaces. Four of them are referred to inferences made on the training file: 'Variable_Importance.txt', 'TimesSelected.txt', 'Trees.txt' and 'EGBV.txt'.
 
