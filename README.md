@@ -70,37 +70,39 @@ Disease statuts must be coded as 0=non-affected or 1=affected. Predictions from 
 The parameter file needs the following options:
 
 
-training= * *training_file* * ``` //A string with the name or path to the training file``` 
+training= *training_file* ``` A string with the name or path to the training file``` 
 
-testing=testing file //A string with the name or path to the testing file
+testing= *testing file*   ``` A string with the name or path to the testing file``` 
 
-ForestSize=integer //Number of trees to be grown
-m=integer              //Number of random features to be checked to split the node
-N_features=integer     //Number of features in the files
-max_branch=integer    //Number of expected branches per tree. This is a internal parameter. More complez trees need of large max_branch value (>5000). A larger value of max_branch is needed if this error is prompted: 
-java.lang.ArrayIndexOutOfBoundsException: 100
-	at RanFog.main(RanFog.java:322)
+ForestSize= *integer*     ```Number of trees to be grown```
+m= *integer*              ```Number of random features to be checked to split the node```
+N_features= *integer*     ```Number of features in the files```
+max_branch= *integer*     ```Number of expected branches per tree.```
+
+> *max_branch* is a internal parameter. More complez trees need of large max_branch value (>5000). A larger value of max_branch is needed if this error is prompted: 
+>java.lang.ArrayIndexOutOfBoundsException: 100
+>	at RanFog.main(RanFog.java:322)
           
+LossFunction= *integer*     ```Loss function used to split the nodes.```
+>Loss_function_option:
+>    1.-Information Gain:
+>    2.-L2: This is the standard mean squared error loss. This opction can be used with continuous and discrete covariates and response variable.
+>    3.-pseudo-Huber
+>    4.-Personalized Cost function
+>    5.-Gini Index
 
-Loss_function_option:
-    1.-Information Gain:
-    2.-L2: This is the standard mean squared error loss. This opction can be used with continuous and discrete covariates and response variable.
-    3.-pseudo-Huber
-    4.-Personalized Cost function
-    5.-Gini Index
-
-The L2 and pseudo-Huber loss functions can be used with categorical and continuous features and response variables.
-The Information Gain can only be used with dicotomous response variable (0 or 1), and a maximum of three classes in the features (0, 1 or 2).
-The Gini Index can be used with categorical response variable up to three classes codified as 0, 1 or 2. It allows continuous or classified (up to a maximum of three classes coddified as 0, 1 or 2) features.
-
-A personalized Cost Function can be implemented on dicotomous response variables. It accepts any sort of features. Aditional parameters must be included in the params.txt file:
-	false_positive_cost=cost1; //Cost of a false positive (individual incorrectly assigned y_hat=1)
-	false_negative_cost=cost2; //Cost of a false negative (individual incorrectly assigned y_hat=0)
-
-
+>The L2 and pseudo-Huber loss functions can be used with categorical and continuous features and response variables.
+>The Information Gain can only be used with dicotomous response variable (0 or 1), and a maximum of three classes in the features (0, 1 or 2).
+>The Gini Index can be used with categorical response variable up to three classes codified as 0, 1 or 2. It allows continuous or classified (up to a maximum of three classes coddified as 0, 1 or 2) features.
+>
+>A personalized Cost Function can be implemented on dicotomous response variables. It accepts any sort of features. Aditional parameters must be included in the params.txt file:
+>	false_positive_cost=cost1; //Cost of a false positive (individual incorrectly assigned y_hat=1)
+>	false_negative_cost=cost2; //Cost of a false negative (individual incorrectly assigned y_hat=0)
 
 
-> Note that in that the param.txt file must be in the same directory as RanFoG.jar The 'java -jar RanFog.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code.
+
+
+**Note:** the param.txt file must be in the same directory as RanFoG.jar The 'java -jar RanFog.jar' command will implement the neccesary classes and methods of the java virtual machine in your computer to run the compressed java code.
 
 
 
@@ -108,22 +110,20 @@ A personalized Cost Function can be implemented on dicotomous response variables
 
 RanFoG creates six output files which are organized in columns separated by spaces. Four of them are referred to inferences made on the training file: 'Variable_Importance.txt', 'TimesSelected.txt', 'Trees.txt' and 'EGBV.txt'.
 
--Variable_Importance.txt -- This file is organized in columns ordered by covariate in the input file. First column is the order of the covariate in the input file, and second column is the variable importance. The higher the value in the second column, the more important the variable is. To obtain the relative variable importance, these values have to be divided by the maximum variable importance among all covariates. Then, values will range between 0 and 1 and the variableimportance is called 'relative' because it is expressed with respect to the most important covariate. Therefore, after this transformation, the most important covariate will have value equal 1, whereas the
-rest of them will have a relative importance value with respect to 1. To know details on the calculation of variable importance, please
-refer to [3].
+- *TimesSelected.txt* -- This file is organized in columns ordered by feature in the input file. First column is the order of the feature in the input file, and second column is the number of times a feature is selected to split a node. This file may provide an insight of the importance of the covariates, however, to know their real importance, the user must use the 'Variable_Importance.txt ' file.
 
--TimesSelected.txt -- This file is organized in columns ordered by covariate in the input file. First column is the order of the covariate in the input file, and second column is the number of times a covariate is selected to split a node. This file may provide an insight of the importance of the covariates, however, to know their real importance, the user must use the 'Variable_Importance.txt ' file.
+- *Variable_Importance.txt* -- This file is organized in columns ordered by feature in the input file. First column is the order of the feature in the input file, and second column is the variable importance. Third column is the relative importance of the feature with respect to the most important one. The higher the value in the third column, the more important the variable is. To obtain the relative variable importance, these values have been divided by the maximum variable importance among all covariates. To know details on the calculation of variable importance, please refer to [3]. When using the Gini coefficient, or the informatio gain, the most important features may be negative.
 
--Trees.txt -- This file is also organized in columns ordered by tree constructed. The first column is the missclasification rate in the training file using the bootstrapped sample, whereas the second column is the missclassification rate in the respective out-of-bag sample. Please, refer to [3] for details on how these sample sets are constructed.
+- *Trees.txt* -- This file is also organized in columns ordered by tree constructed. The first column is the acumulatted Loss Function in the training file, whereas the second column is the Loss Function in the respective out-of-bag sample. Please, refer to [3] for details on how these sample sets are constructed.
 
--EGBV.txt -- This file contains two columns. The first one is the corresponding ID of individuals in the training set. The second column is the estimated value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in
+- *EGBV.txt* -- This file contains two columns. The first one is the corresponding ID of individuals in the training set. The second column is the estimated value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in
 classification problems. 
 
-The files 'Predictions.txt' and 'Trees.test' are generated from predictions in the testing file.
+The files *Predictions.txt* and *Trees.test* are generated from predictions in the testing file.
 
--Trees.test -- This is a single column file containing the misclassification rate of individuals in the testing file ordered by tree. Therefore, first row is the missclassification rate after the first tree is constructed, and the last row is the missclassification rate after the whole forest was grown. Please, refer to [3] for details on how predictions are calculated.
+- *Trees.test* -- This is a single column file containing the accumulated Loss Function in the testing set by number of tree. Therefore, first row is the missclassification rate after the first tree is constructed, and the last row is the missclassification rate after the whole forest was grown. Please, refer to [3] for details on how predictions are calculated.
 
--Predictions.txt -- This file contains two columns. The first one is the corresponding ID of individuals in the testing set. The second column is the predicted value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in classification events.
+- *Predictions.txt* -- This file contains two columns. The first one is the corresponding ID of individuals in the testing set. The second column is the predicted value in regression problems or the predicted probability of that individual of being susceptible to the analyzed event in classification events.
 
 ## Bibliography
 
