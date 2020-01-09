@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.*;
 import java.io.*;
 import java.text.DecimalFormat;
-import java.util.Random;
 
 //////////////////////////////////////////////////////////////////////////////
 // Title:            Random Forest for classified and regression problems 
