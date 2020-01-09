@@ -82,7 +82,7 @@ testing= *testing file*       ```A string with the name or path to the testing f
 
 ForestSize= *integer*          ```Number of trees to be grown```
 
-m= *integer*                  ```Number of random features to be checked to split the node```
+mtry= *integer*                  ```Number of random features to be checked to split the node```
 
 N_features= *integer*     ```Number of features in the files```
 
