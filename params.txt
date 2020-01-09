@@ -4,9 +4,9 @@ testing=testing_regression.data
 
 #Forest parameters 
 ForestSize=500
-mtry=50
+mtry=100
 N_features=500
-max_branch=5000
+max_branch=2000
 
 LossFunction=2
 #Personalized cost function
