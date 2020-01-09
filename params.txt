@@ -1,14 +1,14 @@
 #Input files
-training=training_categorical.data
-testing=testing_categorical.data
+training=training_regression.data
+testing=testing_regression.data
 
 #Forest parameters 
 ForestSize=500
-m=100
+mtry=50
 N_features=500
 max_branch=5000
 
 LossFunction=2
 #Personalized cost function
-false_positive_cost=100
-false_negative_cost=50
+false_positive_cost=1
+false_negative_cost=1  
