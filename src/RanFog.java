@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.*;
 import java.io.*;
 import java.text.DecimalFormat;
+import java.util.Random;
 
 //////////////////////////////////////////////////////////////////////////////
 // Title:            Random Forest for classified and regression problems 
@@ -55,7 +56,7 @@ public class RanFog{
 		//Name of testing file; Load testing file
 		File tstFile = new File(demoProperties.getProperty("testing"));
 		//Number of Features randomly selected at each node
-		double m=Double.parseDouble(demoProperties.getProperty("m")); //Percentage of Features randomly selected at each node
+		double m=Double.parseDouble(demoProperties.getProperty("mtry")); //Percentage of Features randomly selected at each node
 		//Max number of branches allowed
 		int max_branch=Integer.parseInt(demoProperties.getProperty("max_branch"));
 		//Loss function used for discrete features
@@ -98,7 +99,7 @@ public class RanFog{
 
 		
 		/**Initialize counter variables*/
-		int  j=0, k=0, i=0, N_tot=0, N_tst=0, N_oob=0;
+		int  j=0, jj=0, k=0, i=0, N_tot=0, N_tst=0, N_oob=0;
 
 		// read the number of lines in the training file
 		try {
@@ -166,7 +167,7 @@ public class RanFog{
 
 		//Random number generator
 		Random x1 =new Random(); 
-
+		Random rand=new Random();
 		//Information gain variables
 		double Loss=0.d;
 
@@ -271,8 +272,9 @@ public class RanFog{
     		node_mse=0.d;	
     		node_mse=LossFunction.getLossFunctionNode(LF_c, branch[k], phenotype, Genotype, false_positive_cost, false_negative_cost);
 
-    		for (j=0; j<N_attributes;j++){  //calculate MSE, and select that SNP minimizing MSE
-        	 if (x1.nextDouble()< m/(1.d*N_attributes) ){ //Select only sqrt(N_attributes) variables
+    		for (jj=0; jj<m;jj++){  //calculate MSE, and select that SNP minimizing MSE
+    		j = rand.nextInt((N_attributes));
+        	 //if (x1.nextDouble()< m/(1.d*N_attributes) ){ //Select only sqrt(N_attributes) variables
             	Loss=LossFunction.getLossFunctionSplit(LF_c, j, branch[k], phenotype, Genotype, false_positive_cost, false_negative_cost);		 
             	if (Loss<minLoss){  //For non-classified attributes
                    	 //Calculate mean for SNP j
@@ -297,7 +299,7 @@ public class RanFog{
         			branch[k].Feature=FeatureSel[0];
         			branch[k].mean_snp=mean_j;		
         		}
-        	  }
+        	  //}
         	}
         	if (node!=N_attributes){ //Create a new branch, only if MSE of the previous branch is minimized
         		Selected[node]++;
@@ -461,7 +463,7 @@ public class RanFog{
 	for (i=0;i<N_tot;i++){ //Predicted GBV in training set
 		outEGBV.println( ID[i]+" "+formatter.format(GEBV[i][0]/(float)(GEBV[i][1])) );
 	}
-	for (i=0;i<N_tst;i++){//Predicted GBV in training set
+	for (i=0;i<N_tst;i++){//Predicted GBV in testing set
 		outPred.println( ID_tst[i]+" "+formatter.format(y_hat[i]/(n_tree+1)) );
 	}
 	outSel.close();outVI.close();outPred.close();outEGBV.close();
