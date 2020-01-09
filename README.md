@@ -1,5 +1,9 @@
-# RanFoG
-A java program to implement Random Forest in a general framework
+
+<p align="center">
+  <img width="200" height="200" src="Logo.PNG">
+</p>
+
+    **RanFoG** is  java program to implement Random Forest in a general framework
 
 # Introduction
 This manual describes how to use the program RanFoG, which is focused, but not restricted to, on the analysis of genomic data using random forest. RanFoG can perform classification and regression problems. 
