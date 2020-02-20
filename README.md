@@ -159,3 +159,14 @@ An Rmarkdown file is provided [here](RanFog_OutputSummary.Rmd) to help with a fi
 [4] Breiman L. Bagging predictors. Machine Learning, 24:123-140, 1996.
 
 [5] Tibshirani R., 1996. Bias, variance, and prediction error for classification rules. Technical Report, Statistics Department, University of Toronto.
+
+
+# FAQ
+
+
+-*How can Ranfog distinguish between categorical and continuous features?*
+Ranfog treat all covariates as continuos. It subsequently split the node based on the mean value of the selected covariate. If the user is interested on treating a feature as a categorical, this feature must be codified as a dummy variable instead. For instance, for a feature with 3 levels (A, B, C), substitute it for 3 dummy variables with possible values either 0 or 1. Each new variable represents a level of the feature. This is:
+A record with a value "level A" in the factor is codified as 1 0 0.
+A record with a value "level B" in the factor is codified as 0 1 0.
+A record with a value "level C" in the factor is codified as 0 0 1.
+
