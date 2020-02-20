@@ -165,10 +165,15 @@ An Rmarkdown file is provided [here](RanFog_OutputSummary.Rmd) to help with a fi
 
 
 -*How can Ranfog distinguish between categorical and continuous features?*
+
 Ranfog treat all covariates as continuos. It subsequently split the node based on the mean value of the selected covariate. If the user is interested on treating a feature as a categorical, this feature must be codified as a dummy variable instead. For instance, for a feature with 3 levels (A, B, C), substitute it for 3 dummy variables with possible values either 0 or 1. Each new variable represents a level of the feature. This is:
+
 A record with a value "level A" in the factor is codified as 1 0 0.
+
 A record with a value "level B" in the factor is codified as 0 1 0.
+
 A record with a value "level C" in the factor is codified as 0 0 1.
 
--*How can I optimized the number of trees*
+-*How can I optimized the number of trees?*
+
 The number of trees to convergence can be monitorized in the Trees.txt file. The algorithm is supposed to converge once the loss function reaches a plateau. If a testing set is used, the user can monitorize the accumulated loss function in the testing set from the Trees.test file.  
