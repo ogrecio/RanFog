@@ -170,3 +170,5 @@ A record with a value "level A" in the factor is codified as 1 0 0.
 A record with a value "level B" in the factor is codified as 0 1 0.
 A record with a value "level C" in the factor is codified as 0 0 1.
 
+-*How can I optimized the number of trees*
+The number of trees to convergence can be monitorized in the Trees.txt file. The algorithm is supposed to converge once the loss function reaches a plateau. If a testing set is used, the user can monitorize the accumulated loss function in the testing set from the Trees.test file.  
