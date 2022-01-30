@@ -20,7 +20,12 @@ running errors or suggestions are welcome and encouraged.
 # 1 - How to execute RanFoG
 
 Download the RanFoG [executable](RanFoG.jar).
-
+or clone the repository:
+```
+mkdir GWP
+git clone https://github.com/ogrecio/RanFog.git
+cd RanFog
+```
 
 RanFoG must be run in a command line mode. The execution is simple, just type in the command line the following order depending on your problem category:
 
