@@ -1,6 +1,6 @@
 #Input files
-training=training_regression.data
-testing=testing_regression.data
+training=data/training_regression.data
+testing=data/testing_regression.data
 
 #Forest parameters 
 ForestSize=500
