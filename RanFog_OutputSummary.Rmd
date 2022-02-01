@@ -60,7 +60,7 @@ min_value<-min_value*0.9
 
 ```{r, include='FALSE'}
 
-	  ytrain<-read.table(file='training_regression.data',header=F)
+	  ytrain<-read.table(file='data/training_regression.data',header=F)
 
 
 ```
@@ -84,7 +84,7 @@ The variance explained in the model (R2) was `r round( summary(lm.fit)$adj.r.squ
 
 ```{r, include='FALSE'}
 
-	  ytest<-read.table(file='testing_regression.data',header=F)
+	  ytest<-read.table(file='data/testing_regression.data',header=F)
 
 
 ```
