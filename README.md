@@ -23,6 +23,7 @@ Download the RanFoG [executable](RanFoG.jar).
 or clone the repository:
 ```
 mkdir GWP
+cd GWP
 git clone https://github.com/ogrecio/RanFog.git
 cd RanFog
 ```
